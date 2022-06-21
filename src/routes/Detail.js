@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import styles from "../style/Detail.module.css";
 
 function Detail() {
   const { id } = useParams();
@@ -18,24 +19,39 @@ function Detail() {
   console.log(movie);
   return (
     <div>
-      {loading ? <h1>Loading</h1> : null}
+      {loading ? (
+        <div className={styles.loading}>
+          <div className={styles.loading__wrapper}>
+            <div className={styles.loading__circleleft}></div>
+            <div className={styles.loading__circleright}></div>
+          </div>
+        </div>
+      ) : null}
       {loading ? null : (
         <div>
-          <img src={movie.medium_cover_image} />
-          <div>
-            <div>
-              <h3>{movie.title}</h3>
-              <span>{movie.year}</span>
+          <div className={styles.background}></div>
+          <img
+            src={movie.background_image}
+            className={styles.background__image}
+          />
+          <div className={styles.wrapper}>
+            <div className={styles.content}>
+              <div className={styles.header}>
+                <img src={movie.medium_cover_image} />
+                <div className={styles.intro}>
+                  <h3>{movie.title}</h3>
+                  <span>{movie.year}</span>
+                  <span>Rating : {movie.rating} / 10</span>
+                  <span>Runtime : {movie.runtime}min</span>
+                  <ul>
+                    {movie.genres?.map((genre) => (
+                      <li key={genre}>{genre}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <p>{movie.description_full}</p>
             </div>
-            <div>
-              <span>Rating : {movie.rating} / 10</span>
-              <span>Runtime : {movie.runtime}min</span>
-            </div>
-            <ul>
-              {movie.genres?.map((genre) => (
-                <li key={genre}>{genre}</li>
-              ))}
-            </ul>
           </div>
         </div>
       )}
